@@ -1,0 +1,16 @@
+{
+  "name": "fragments-ui",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Fragments UI testing web app",
+  "scripts": {
+    "start": "parcel index.html --port 1234",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptlvrd/fragments-ui.git"
+  },
+  "author": "Vrunda",
+  "license": "UNLICENSED"
+}
