@@ -12,5 +12,12 @@
     "url": "git+https://github.com/ptlvrd/fragments-ui.git"
   },
   "author": "Vrunda",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "parcel": "^2.15.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "oidc-client-ts": "^3.2.1"
+  }
 }
