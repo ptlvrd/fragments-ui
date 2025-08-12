@@ -1,31 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Fragments UI</title>
-    <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
-    <script type="module" src="./src/app.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <title>Fragments UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A Progressive Web App for managing text and image fragments">
+  <link rel="manifest" href="./public/manifest.json">
+  <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <div class="container">
     <h1>Fragments UI</h1>
-    <section>
-      <nav>
-        <button id="login">Login</button>
-      </nav>
-    </section>
-    <section hidden id="user">
-      <h2>Hello <span class="username"></span>!</h2>
+    
+    <!-- Online/Offline Status -->
+    <div id="status" style="margin-bottom: 1em; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+      🟢 Online
+    </div>
+    
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" style="display: none; margin-bottom: 1em; padding: 10px; background: #ffebee; border: 1px solid #f44336; border-radius: 5px; color: #c62828;">
+      ⚠️ You are currently offline. Fragments will be saved locally and synced when you're back online.
+    </div>
 
-      <h3>Create a Text Fragment</h3>
-  <form id="fragmentForm">
-    <textarea id="fragmentContent" rows="4" cols="50" placeholder="Type your fragment..."></textarea><br />
-    <button type="submit">Create Fragment</button>
-  </form>
+    <!-- Login Section -->
+    <div id="loginBtn">
+      <button onclick="signIn()">Sign In with Cognito</button>
+    </div>
 
-  <div id="fragmentsList">
-    <h3>Your Fragments</h3>
-    <ul id="fragments"></ul>
+    <!-- User Section (hidden initially) -->
+    <div id="user" hidden>
+      <p>Welcome, <span class="username"></span>!</p>
+      <button onclick="signOut()">Sign Out</button>
+    </div>
+
+    <!-- Fragment Creation Form -->
+    <div id="fragmentForm" style="margin: 2em 0;">
+      <h3>Create New Fragment</h3>
+      <form id="fragmentForm">
+        <div>
+          <label for="fragmentType">Type:</label>
+          <select id="fragmentType">
+            <option value="text/plain">Plain Text</option>
+            <option value="text/markdown">Markdown</option>
+            <option value="text/html">HTML</option>
+            <option value="application/json">JSON</option>
+            <option value="image/png">PNG Image</option>
+            <option value="image/jpeg">JPEG Image</option>
+            <option value="image/webp">WebP Image</option>
+            <option value="image/gif">GIF Image</option>
+            <option value="image/avif">AVIF Image</option>
+          </select>
+        </div>
+        
+        <div id="textInput">
+          <label for="fragmentContent">Content:</label>
+          <textarea id="fragmentContent" rows="5" cols="50" placeholder="Enter your fragment content here..."></textarea>
+        </div>
+        
+        <div id="fileInput" style="display: none;">
+          <label for="fragmentFile">File:</label>
+          <input type="file" id="fragmentFile" accept="image/*,.txt,.md,.html,.json,.yaml,.yml">
+        </div>
+        
+        <div id="imageUpload" style="display: none;">
+          <label for="imageUpload">Image:</label>
+          <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        
+        <button type="submit">Create Fragment</button>
+      </form>
+    </div>
+
+    <!-- Fragments List -->
+    <div id="fragmentsList">
+      <h3>Your Fragments</h3>
+      <button id="syncButton" onclick="manualSync()" style="margin-bottom: 1em;">🔄 Manual Sync Offline Fragments</button>
+      <ul id="fragments">
+        <!-- Dynamically populated list of fragments -->
+      </ul>
+    </div>
   </div>
-    </section>
-  </body>
+
+  <script>
+    // Handle type selection changes
+    document.getElementById('fragmentType').addEventListener('change', function() {
+      const type = this.value;
+      const textInput = document.getElementById('textInput');
+      const fileInput = document.getElementById('fileInput');
+      const imageUpload = document.getElementById('imageUpload');
+      
+      if (type.startsWith('image/')) {
+        textInput.style.display = 'none';
+        fileInput.style.display = 'block';
+        imageUpload.style.display = 'none';
+      } else {
+        textInput.style.display = 'block';
+        fileInput.style.display = 'none';
+        imageUpload.style.display = 'none';
+      }
+    });
+
+    // Handle file input changes
+    document.getElementById('fragmentFile').addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        document.getElementById('fragmentContent').value = `File: ${file.name} (${file.size} bytes)`;
+      }
+    });
+
+    // Simple sign out function
+    window.signOut = function() {
+      // Clear any stored user data
+      localStorage.removeItem('user');
+      location.reload();
+    };
+  </script>
+</body>
 </html>

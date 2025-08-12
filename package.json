@@ -1,23 +1,22 @@
 {
   "name": "fragments-ui",
-  "private": true,
   "version": "0.0.1",
-  "description": "Fragments UI testing web app",
+  "description": "A Progressive Web App for managing fragments",
+  "main": "index.html",
   "scripts": {
     "start": "parcel index.html --port 1234",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ptlvrd/fragments-ui.git"
-  },
-  "author": "Vrunda",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "parcel": "^2.15.2"
+    "build": "parcel build index.html",
+    "simple": "npx http-server . -p 1234 -c-1",
+    "test-pwa": "parcel test-pwa.html --port 1235",
+    "quick-test": "parcel quick-test.html --port 1236",
+    "simple-test": "parcel simple-test.html --port 1237"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "oidc-client-ts": "^3.2.1"
-  }
+    "oidc-client-ts": "^3.0.1"
+  },
+  "devDependencies": {
+    "@parcel/transformer-js": "^2.12.0",
+    "parcel": "^2.12.0"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
 }
